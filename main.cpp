@@ -17,10 +17,28 @@ int main()
 
         cout << "Початкова вершина: ";
         cin >> start;
-        cout << "1 - нерекурсивний, 2 - рекурсивний пошук" << endl; cin >> choise;
+        cout << "DFS - 1, BFS - 2" << endl;
+        cin >> choise;
 
-        ob.DFS(start-1, choise);
-        ob.Show();
+        switch (choise)
+        {
+            case 1: {
+                        cout << "1 - нерекурсивний, 2 - рекурсивний пошук" << endl; cin >> choise;
+                        ob.DFS(start-1, choise);
+                        ob.Show();
+
+                        break;
+                    }
+            case 2: {
+                        ob.BFS(start-1);
+                        ob.Show();
+
+                        break;
+                    }
+
+            default: { break; }
+
+         }
 
         cout << "Продовжити? (1/0)" << endl;
         cin >> choise;

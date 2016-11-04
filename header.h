@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include "stack.h"
+#include "queue.h"
 
 using namespace std;
 
@@ -19,6 +20,7 @@ public:
         detour(int s);
         ~detour();
         void DFS(int start, int choise);
+        void BFS(int start);
         void Show();
 };
 
@@ -75,6 +77,8 @@ void detour::DFS(int start, int choise)
 
                     while(stack.first)
                     {
+                        label:
+
                         for(int i=0; i<size; i++)
                         {
                             if((graph[stack.first->data][i]) && !(visited[i]))
@@ -82,11 +86,10 @@ void detour::DFS(int start, int choise)
                                 visited[i] = true;
                                 dfsnumber[i] = ++dfs;
                                 stack.Push(i);
+                                goto label;
                             }
                         }
-
-                         stack.Pop();
-
+                            stack.Pop();
                     }
 
                     break;
@@ -110,10 +113,37 @@ void detour::DFS(int start, int choise)
 
 }
 
+void detour::BFS(int start)
+{
+    int bfs = 0;
+    Queue queue;
+
+    visited[start] = true;
+    dfsnumber[start] = ++bfs;
+    queue.Enqueue(start);
+
+
+    while(queue.front)
+    {
+        start = queue.front->data;
+        for(int i=0; i<size; i++)
+        {
+            if((graph[start][i]) && !(visited[i]))
+            {
+                visited[i] = true;
+                dfsnumber[i] = ++bfs;
+                queue.Enqueue(i);
+            }
+        }
+
+        queue.Dequeue();
+    }
+}
+
 void detour::Show()
 {
     num = 0;
-    cout << "Name:" << "\tDFS" << endl;
+    cout << "Name:" << "\tDFS/BFS" << endl;
     for(int i=0; i<size; i++)
         cout << i+1 << "\t" << dfsnumber[i] << endl;
 
